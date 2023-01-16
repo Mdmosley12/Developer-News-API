@@ -18,6 +18,9 @@ describe('app testing', () => {
             return request(app)
             .get('/notAPath')
             .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Invalid input!');
+            })
         })
     })
     describe('get topics', () => {
