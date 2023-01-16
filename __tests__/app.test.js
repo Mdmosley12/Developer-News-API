@@ -13,8 +13,15 @@ afterAll(() => {
 });
 
 describe('app testing', () => {
+    describe('error handling', () => {
+        test('Returns a 404 status and an error message when the entered route does not exist', () => {
+            return request(app)
+            .get('/notAPath')
+            .expect(404)
+        })
+    })
     describe('get topics', () => {
-        test.only('Returns a 200 status and all topics', () => {
+        test('Returns a 200 status and all topics', () => {
             return request(app)
             .get('/api/topics')
             .expect(200)
