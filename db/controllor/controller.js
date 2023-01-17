@@ -13,7 +13,7 @@ const getTopics = (request, response, next) => {
 const getArticles = (request, response, next) => {
     selectAllArticles()
     .then((articles) => {
-        response.status(200).send( articles );
+        response.status(200).send( {articles} );
     })
     .catch((err) => {
         next(err);

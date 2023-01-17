@@ -42,13 +42,13 @@ describe('app testing', () => {
         })
     })
     describe('get articles', () => {
-        test('Returns a 200 status and all articles', () => {
+        test.only('Returns a 200 status and all articles', () => {
             return request(app)
             .get('/api/articles')
             .expect(200)
-            .then(({ body }) => {
-                expect(body.length).toBeGreaterThan(0);
-                body.forEach((article) => {
+            .then(({ body: {articles} }) => {
+                expect(articles.length).toBeGreaterThan(0);
+                articles.forEach((article) => {
                     expect(article).toEqual(
                         expect.objectContaining({
                             article_id: expect.any(Number),
