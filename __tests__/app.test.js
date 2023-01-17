@@ -73,5 +73,20 @@ describe('app testing', () => {
                 expect(body[body.length - 1].article_id).toBe(7)
             })
         })
+        test('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body }) => {
+                expect(body[0].comment_count).toBe('2');
+                body.forEach((article) => {
+                    expect(article).toEqual(
+                        expect.objectContaining({
+                            comment_count: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
     })
 })
