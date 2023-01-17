@@ -89,4 +89,9 @@ describe('app testing', () => {
             })
         })
     })
+    describe('get comments by article_id', () => {
+        test('200: Returns all comments related to the requested article_id', () => {
+            
+        })
+    })
 })
