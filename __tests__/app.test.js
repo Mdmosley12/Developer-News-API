@@ -110,7 +110,7 @@ describe('app testing', () => {
                 })
             })
         })
-        test('200: All returned comments are sorted by date in ascending order', () => {
+        test('200: All returned comments are sorted by date in descending order', () => {
             return request(app)
             .get('/api/articles/1/comments')
             .expect(200)
