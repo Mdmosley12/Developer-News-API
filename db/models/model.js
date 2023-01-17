@@ -7,4 +7,11 @@ const selectAllTopics = () => {
     })
 };
 
-module.exports = { selectAllTopics };
+const selectArticleById = (article_id) => {
+    const queryString = `SELECT * FROM articles WHERE article_id=${article_id};`;
+    return db.query(queryString).then((result) => {
+        return result.rows;
+    })
+}
+
+module.exports = { selectAllTopics, selectArticleById };

@@ -3,6 +3,7 @@ const request = require('supertest');
 const db = require('../db/connection');
 const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index');
+const { get } = require('../db/app/app');
 
 beforeEach(() => {
     return seed(testData);
@@ -38,6 +39,28 @@ describe('app testing', () => {
                         })
                     )
                 })
+            })
+        })
+    })
+    describe('get article by id', () => {
+        test('Returns the requested article', () => {
+            return request(app)
+            .get('/api/articles/2')
+            .expect(200)
+            .then(({ body: {article} }) => {
+                expect(article[0].article_id).toBe(2)
+                expect(article[0]).toEqual(
+                    expect.objectContaining({
+                        article_id: expect.any(Number),
+                        title: expect.any(String),
+                        topic: expect.any(String),
+                        author: expect.any(String),
+                        body: expect.any(String),
+                        created_at: expect.any(String),
+                        votes: expect.any(Number),
+                        article_img_url: expect.any(String)
+                    })
+                )
             })
         })
     })
