@@ -91,7 +91,33 @@ describe('app testing', () => {
     })
     describe('get comments by article_id', () => {
         test('200: Returns all comments related to the requested article_id', () => {
-            
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then(({ body: {comments} }) => {
+                expect(comments.length).toBe(11);
+                comments.forEach((comment) => {
+                    expect(comment).toEqual(
+                        expect.objectContaining({
+                            comment_id: expect.any(Number),
+                            body: expect.any(String),
+                            article_id: expect.any(Number),
+                            author: expect.any(String),
+                            votes: expect.any(Number),
+                            created_at: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
+        test('200: All returned comments are sorted by date in ascending order', () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then(({ body: {comments} }) => {
+                expect(comments[0].comment_id).toBe(5);
+                expect(comments[10].comment_id).toBe(9);
+            })
         })
     })
 })

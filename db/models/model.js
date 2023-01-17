@@ -20,4 +20,15 @@ const selectAllArticles = () => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles };
+const selectCommentsByArticleId = (article_id) => {
+    const queryValues = [article_id];
+    const queryString = `SELECT *
+    FROM comments
+    WHERE article_id = $1
+    ORDER BY created_at DESC;`;
+    return db.query(queryString, queryValues).then((result) => {
+        return result.rows;
+    })
+}
+
+module.exports = { selectAllTopics, selectAllArticles, selectCommentsByArticleId };
