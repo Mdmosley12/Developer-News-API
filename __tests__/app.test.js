@@ -23,6 +23,22 @@ describe('app testing', () => {
                 expect(body.msg).toBe('Invalid input!');
             })
         })
+        test('Returns a 400 status and an error message when an invalid ID has been entered', () => {
+            return request(app)
+            .get('/api/articles/two')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Invalid article request!');
+            })
+        })
+        test('Returns a 404 status and an error message when the requested article does not exist', () => {
+            return request(app)
+            .get('/api/articles/99999')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Requested article not found!');
+            })
+        })
     })
     describe('get topics', () => {
         test('Returns a 200 status and all topics', () => {
@@ -48,8 +64,8 @@ describe('app testing', () => {
             .get('/api/articles/2')
             .expect(200)
             .then(({ body: {article} }) => {
-                expect(article[0].article_id).toBe(2)
-                expect(article[0]).toEqual(
+                expect(article.article[0].article_id).toBe(2)
+                expect(article.article[0]).toEqual(
                     expect.objectContaining({
                         article_id: expect.any(Number),
                         title: expect.any(String),
