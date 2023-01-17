@@ -42,7 +42,7 @@ describe('app testing', () => {
         })
     })
     describe('get articles', () => {
-        test.only('Returns a 200 status and all articles', () => {
+        test('Returns a 200 status and all articles', () => {
             return request(app)
             .get('/api/articles')
             .expect(200)
@@ -68,18 +68,18 @@ describe('app testing', () => {
             return request(app)
             .get('/api/articles')
             .expect(200)
-            .then(({ body }) => {
-                expect(body[0].article_id).toBe(3);
-                expect(body[body.length - 1].article_id).toBe(7)
+            .then(({ body: {articles}}) => {
+                expect(articles[0].article_id).toBe(3);
+                expect(articles[articles.length - 1].article_id).toBe(7)
             })
         })
-        test('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
+        test.only('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
             return request(app)
             .get('/api/articles')
             .expect(200)
-            .then(({ body }) => {
-                expect(body[0].comment_count).toBe('2');
-                body.forEach((article) => {
+            .then(({ body: {articles} }) => {
+                expect(articles[0].comment_count).toBe('2');
+                articles.forEach((article) => {
                     expect(article).toEqual(
                         expect.objectContaining({
                             comment_count: expect.any(String)
