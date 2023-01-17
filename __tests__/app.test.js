@@ -58,6 +58,54 @@ describe('app testing', () => {
             })
         })
     })
+    describe('get articles', () => {
+        test('Returns a 200 status and all articles', () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles.length).toBeGreaterThan(0);
+                articles.forEach((article) => {
+                    expect(article).toEqual(
+                        expect.objectContaining({
+                            article_id: expect.any(Number),
+                            title: expect.any(String),
+                            topic: expect.any(String),
+                            author: expect.any(String),
+                            body: expect.any(String),
+                            created_at: expect.any(String),
+                            votes: expect.any(Number),
+                            article_img_url: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
+        test('200: sorts by date in descending order by default', () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: {articles}}) => {
+                expect(articles[0].article_id).toBe(3);
+                expect(articles[articles.length - 1].article_id).toBe(7)
+            })
+        })
+        test('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles[0].comment_count).toBe('2');
+                articles.forEach((article) => {
+                    expect(article).toEqual(
+                        expect.objectContaining({
+                            comment_count: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
+    })
     describe('get article by id', () => {
         test('Returns the requested article', () => {
             return request(app)
@@ -80,4 +128,5 @@ describe('app testing', () => {
             })
         })
     })
+
 })
