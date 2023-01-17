@@ -73,7 +73,7 @@ describe('app testing', () => {
                 expect(articles[articles.length - 1].article_id).toBe(7)
             })
         })
-        test.only('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
+        test('200: contains a comment_count property which counts all the comments with a certain article_id', () => {
             return request(app)
             .get('/api/articles')
             .expect(200)
