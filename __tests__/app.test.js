@@ -22,6 +22,22 @@ describe('app testing', () => {
                 expect(body.msg).toBe('Invalid input!');
             })
         })
+        test('Returns a 400 status code and an error message when the requested article does not exist', () => {
+            return request(app)
+            .get('/api/articles/999/comments')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Requested article not found!');
+            })
+        })
+        test('Returns a 404 status code and an error message when an invalid ID has beenn entered', () => {
+            return request(app)
+            .get('/api/articles/ten/comments')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Invalid article request!');
+            })
+        })
     })
     describe('get topics', () => {
         test('Returns a 200 status and all topics', () => {
@@ -115,6 +131,7 @@ describe('app testing', () => {
             .get('/api/articles/1/comments')
             .expect(200)
             .then(({ body: {comments} }) => {
+                expect(comments).toBeSortedBy('created_at', {descending: true})
                 expect(comments[0].comment_id).toBe(5);
                 expect(comments[10].comment_id).toBe(9);
             })

@@ -11,6 +11,22 @@ app.all('*', (request, response, next) => {
 });
 
 app.use((err, request, response, next) => {
+    if(err.code === '22P02') {
+        response.status(400).send({msg: 'Invalid article request!'});
+    } else {
+        next(err);
+    }
+});
+
+app.use((err, request, response, next) => {
+    if(err.status === 404) {
+        response.status(404).send({msg: 'Requested article not found!'});
+    } else {
+        next(err);
+    }
+})
+
+app.use((err, request, response, next) => {
     console.log(err);
     response.status(500).send('Server Error!');
     next(err);

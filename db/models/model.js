@@ -27,7 +27,11 @@ const selectCommentsByArticleId = (article_id) => {
     WHERE article_id = $1
     ORDER BY created_at DESC;`;
     return db.query(queryString, queryValues).then((result) => {
-        return result.rows;
+        if(result.rows.length === 0) {
+            return Promise.reject({ status: 404, msg: 'Requested article not found!'});
+        } else {
+            return result.rows;
+        }
     })
 }
 
