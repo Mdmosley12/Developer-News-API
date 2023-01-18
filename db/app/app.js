@@ -12,6 +12,14 @@ app.all('*', (request, response, next) => {
 });
 
 app.use((err, request, response, next) => {
+    if(err.code === '23503') {
+        response.status(404).send({msg: 'No username found!'})
+    } else {
+        next(err)
+    }
+})
+
+app.use((err, request, response, next) => {
     console.log(err);
     response.status(500).send('Server Error!');
     next(err);
