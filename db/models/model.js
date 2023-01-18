@@ -31,7 +31,6 @@ const addComment = (article_id, newComment) => {
         article_id
     ])
     .then(({ rows }) => {
-        console.log(rows[0], '<<<<');
         return rows[0];
     })
 }
