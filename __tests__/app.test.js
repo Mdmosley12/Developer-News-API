@@ -175,6 +175,26 @@ describe('app testing', () => {
         })
     })
     describe('post comments', () => {
+        test('201: The new comment is added to the database', () => {
+            const newComment = {
+                username: "butter_bridge",
+                body: 'I love coding!'
+            };
+            return request(app)
+            .post('/api/articles/3/comments')
+            .send(newComment)
+            .expect(201)
+            .then(({ body }) => {
+                return request(app)
+                .get('/api/articles/3/comments')
+                .expect(200)
+                .then(({ body : {comments} }) => {
+                    expect(comments.length).toBe(3)
+                    expect(comments[0].body).toBe(newComment.body)
+                })
+
+            })
+        })
         test('201: Responds with the added comment', () => {
             const newComment = {
                 username: "butter_bridge",
@@ -185,6 +205,7 @@ describe('app testing', () => {
             .send(newComment)
             .expect(201)
             .then(({ body }) => {
+                // console.log(body);
                 expect(body.comment).toEqual(
                     expect.objectContaining({
                         article_id: 3,
