@@ -60,4 +60,20 @@ const addComment = (article_id, newComment) => {
         return rows[0];
     })
 };
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment };
+
+const updateArticle = (article_id, updateValues) => {
+    const { inc_votes } = updateValues;
+    const sqlQuery = `UPDATE articles
+    SET votes = votes + $1
+    WHERE article_id = $2
+    RETURNING *;`;
+    return db.query(sqlQuery, [
+        inc_votes,
+        article_id
+    ])
+    .then(({ rows }) => {
+        return rows[0];
+    })
+};
+
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle };

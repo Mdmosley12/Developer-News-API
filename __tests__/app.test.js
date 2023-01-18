@@ -36,7 +36,7 @@ describe('app testing', () => {
             .get('/api/articles/ten/comments')
             .expect(400)
             .then(({ body }) => {
-                expect(body.msg).toBe('Invalid article request!');
+                expect(body.msg).toBe('Invalid data type in request!');
             })
         })
         test('Returns a 404 status code and an error message when an invalid or empty username is passed in the post request', () => {
@@ -50,6 +50,16 @@ describe('app testing', () => {
             .expect(404)
             .then(({ body }) => {
                 expect(body.msg).toBe('No username found!')
+            })
+        })
+        test('Returns a 400 status and an error message when the desiredUpdates value is the wrong data type in a patch request', () => {
+            const desiredUpdates = {inc_votes : 'one'};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Invalid data type in request!');
             })
         })
     })
@@ -192,7 +202,6 @@ describe('app testing', () => {
                     expect(comments.length).toBe(3)
                     expect(comments[0].body).toBe(newComment.body)
                 })
-
             })
         })
         test('201: Responds with the added comment', () => {
@@ -218,4 +227,41 @@ describe('app testing', () => {
             })
         })
     })
+    describe('patch article', () => {
+        test('Returns the requested article with the votes key increased by the amount stated in the patch request', () => {
+            const desiredUpdates = {inc_votes : 1};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(200)
+            .then(({ body: {updatedArticle} }) => {
+                expect(updatedArticle.votes).toBe(101)
+            })
+        })
+        test('Returns the requested article with the votes key decreased by the amount stated in the patch request', () => {
+            const desiredUpdates = {inc_votes : -1};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(200)
+            .then(({ body: {updatedArticle} }) => {
+                expect(updatedArticle.votes).toBe(99)
+            })
+        })
+        test('The changes have been commited to the database', () => {
+            const desiredUpdates = {inc_votes : 1};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(200)
+            .then(() => {
+                return request(app)
+                .get('/api/articles/1')
+                .expect(200)
+                .then(({ body: {article} }) => {
+                    expect(article.article[0].votes).toBe(101);
+                })
+            })
+        })
+})
 })
