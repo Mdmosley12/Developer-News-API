@@ -14,7 +14,7 @@ app.all('*', (request, response, next) => {
 
 app.use((err, request, response, next) => {
     if(err.code === '22P02') {
-        response.status(400).send({msg: 'Invalid article request!'});
+        response.status(400).send({msg: 'Invalid data type in request!'});
     } else {
         next(err);
     }
