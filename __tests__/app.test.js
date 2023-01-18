@@ -197,4 +197,14 @@ describe('app testing', () => {
             })
         })
     })
+    describe('get users', () => {
+        test.only('200: Returns all users', () => {
+            return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.length).toBeGreaterThan(0);
+            })
+        })
+    })
 })

@@ -60,4 +60,13 @@ const addComment = (article_id, newComment) => {
         return rows[0];
     })
 };
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment };
+
+const selectAllUsers = () => {
+    const queryString = `SELECT * FROM users;`;
+    return db.query(queryString)
+    .then((result) => {
+        console.log(result.rows)
+        return result.rows;
+    })
+}
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, selectAllUsers };

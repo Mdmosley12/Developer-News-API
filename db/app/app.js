@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment } = require('../controllor/controller');
+const { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, getUsers } = require('../controllor/controller');
 
 app.use(express.json());
 app.get('/api/topics', getTopics);
@@ -8,6 +8,7 @@ app.get('/api/articles', getArticles);
 app.get('/api/articles/:article_id', getArticleById)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
 app.post('/api/articles/:article_id/comments', postComment);
+app.get('/api/users', getUsers);
 
 app.all('*', (request, response, next) => {
     response.status(404).send({msg: 'Invalid input!'});

@@ -1,4 +1,4 @@
-const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment } = require('../models/model');
+const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, selectAllUsers } = require('../models/model');
 
 const getTopics = (request, response, next) => {
     selectAllTopics()
@@ -54,5 +54,15 @@ const postComment = (request, response, next) => {
     })
 };
 
+const getUsers = (request, response, next) => {
+    selectAllUsers()
+    .then((users) => {
+        response.status(200).send( users );
+    })
+    .catch((err) => {
+        next(err);
+    })
+}
 
-module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment };
+
+module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, getUsers };
