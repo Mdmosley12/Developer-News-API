@@ -20,4 +20,19 @@ const selectAllArticles = () => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles };
+const addComment = (article_id, newComment) => {
+    const sqlQuery = `INSERT INTO comments (author, body, article_id)
+    VALUES
+    ($1, $2, $3)
+    RETURNING *;`;
+    return db.query(sqlQuery, [
+        newComment.username,
+        newComment.body,
+        article_id
+    ])
+    .then(({ rows }) => {
+        console.log(rows[0], '<<<<');
+        return rows[0];
+    })
+}
+module.exports = { selectAllTopics, selectAllArticles, addComment };

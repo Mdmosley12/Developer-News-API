@@ -89,4 +89,27 @@ describe('app testing', () => {
             })
         })
     })
+    describe('post comments', () => {
+        test('201: add a comment and respond with the added comment', () => {
+            const newComment = {
+                username: "butter_bridge",
+                body: 'I love coding!'
+            }
+            return request(app)
+            .post('/api/articles/3/comments')
+            .send(newComment)
+            .expect(201)
+            .then(({ body }) => {
+                expect(body.comment).toEqual(
+                    expect.objectContaining({
+                        article_id: 3,
+                        votes: 0,
+                        author: "butter_bridge",
+                        body: 'I love coding!',
+                        created_at: expect.any(String)
+                    })
+                )
+            })
+        })
+    })
 })
