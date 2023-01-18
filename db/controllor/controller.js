@@ -22,7 +22,8 @@ const getArticles = (request, response, next) => {
 
 const postComment = (request, response, next) => {
     const { article_id } = request.params;
-    addComment(article_id, request.body)
+    const { body } = request;
+    addComment(article_id, body)
     .then((comment) => {
         response.status(201).send({ comment })
     })

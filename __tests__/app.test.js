@@ -103,7 +103,18 @@ describe('app testing', () => {
         })
     })
     describe('post comments', () => {
-        test('201: add a comment and respond with the added comment', () => {
+        // test('201: Comment is added to databse', () => {
+        //     const newComment = {
+        //         username: "butter_bridge",
+        //         body: 'I love coding!'
+        //     }
+        //     return request(app)
+        //     .post('/api/articles/3/comments')
+        //     .send(newComment)
+        //     .expect(201)
+        //     .then(({ body }) => )
+        // })
+        test('201: Responds with the added comment', () => {
             const newComment = {
                 username: "butter_bridge",
                 body: 'I love coding!'
