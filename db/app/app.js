@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
-const { getTopics, getArticleById, getArticles } = require('../controllor/controller');
+const { getTopics, getArticleById, getArticles, patchArticle } = require('../controllor/controller');
 
+app.use(express.json());
 app.get('/api/topics', getTopics);
-app.get('/api/articles/:article_id', getArticleById)
 app.get('/api/articles', getArticles);
+app.get('/api/articles/:article_id', getArticleById)
+app.patch('/api/articles/:article_id', patchArticle);
 
 app.all('*', (request, response, next) => {
     response.status(404).send({msg: 'Invalid input!'});

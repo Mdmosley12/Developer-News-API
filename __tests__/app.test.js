@@ -129,5 +129,27 @@ describe('app testing', () => {
             })
         })
     })
+    describe('patch article', () => {
+        test('Returns the requested article with the votes key increased by the amount stated in the patch request', () => {
+            const desiredUpdates = {inc_votes : 1};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(200)
+            .then(({ body: {updatedArticle} }) => {
+                expect(updatedArticle.votes).toBe(101)
+            })
+        })
+        test('Returns the requested article with the votes key decreased by the amount stated in the patch request', () => {
+            const desiredUpdates = {inc_votes : -1};
+            return request(app)
+            .patch('/api/articles/1')
+            .send(desiredUpdates)
+            .expect(200)
+            .then(({ body: {updatedArticle} }) => {
+                expect(updatedArticle.votes).toBe(99)
+            })
+        })
+    })
 
 })
