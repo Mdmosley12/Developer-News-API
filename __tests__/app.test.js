@@ -86,6 +86,7 @@ describe('app testing', () => {
             .get('/api/articles')
             .expect(200)
             .then(({ body: {articles}}) => {
+                expect(articles).toBeSortedBy('created_at', {descending: true})
                 expect(articles[0].article_id).toBe(3);
                 expect(articles[articles.length - 1].article_id).toBe(7)
             })
