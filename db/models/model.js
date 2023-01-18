@@ -65,7 +65,6 @@ const selectAllUsers = () => {
     const queryString = `SELECT * FROM users;`;
     return db.query(queryString)
     .then((result) => {
-        console.log(result.rows)
         return result.rows;
     })
 }

@@ -198,12 +198,21 @@ describe('app testing', () => {
         })
     })
     describe('get users', () => {
-        test.only('200: Returns all users', () => {
+        test('200: Returns all users', () => {
             return request(app)
             .get('/api/users')
             .expect(200)
             .then(({ body }) => {
                 expect(body.length).toBeGreaterThan(0);
+                body.forEach((user) => {
+                    expect(user).toEqual(
+                        expect.objectContaining({
+                            username: expect.any(String),
+                            name: expect.any(String),
+                            avatar_url: expect.any(String)
+                        })
+                    )
+                })
             })
         })
     })
