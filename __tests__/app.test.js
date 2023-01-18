@@ -39,6 +39,19 @@ describe('app testing', () => {
                 expect(body.msg).toBe('Invalid article request!');
             })
         })
+        test('Returns a 404 status code and an error message when an invalid or empty username is passed in the post request', () => {
+            const newComment = {
+                username: "MDMosley12",
+                body: 'I love coding!'
+            }
+            return request(app)
+            .post('/api/articles/3/comments')
+            .send(newComment)
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('No username found!')
+            })
+        })
     })
     describe('get topics', () => {
         test('Returns a 200 status and all topics', () => {
@@ -158,6 +171,29 @@ describe('app testing', () => {
                 expect(comments).toBeSortedBy('created_at', {descending: true})
                 expect(comments[0].comment_id).toBe(5);
                 expect(comments[10].comment_id).toBe(9);
+            })
+        })
+    })
+    describe('post comments', () => {
+        test('201: Responds with the added comment', () => {
+            const newComment = {
+                username: "butter_bridge",
+                body: 'I love coding!'
+            }
+            return request(app)
+            .post('/api/articles/3/comments')
+            .send(newComment)
+            .expect(201)
+            .then(({ body }) => {
+                expect(body.comment).toEqual(
+                    expect.objectContaining({
+                        article_id: 3,
+                        votes: 0,
+                        author: "butter_bridge",
+                        body: 'I love coding!',
+                        created_at: expect.any(String)
+                    })
+                )
             })
         })
     })
