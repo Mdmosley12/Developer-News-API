@@ -3,7 +3,6 @@ const request = require('supertest');
 const db = require('../db/connection');
 const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index');
-const { get } = require('../db/app/app');
 
 beforeEach(() => {
     return seed(testData);
@@ -282,4 +281,24 @@ describe('app testing', () => {
             })
         })
     })
+    describe('delete comment', () => {
+        test('Returns a 204 status code and no content', () => {
+            return request(app)
+            .delete('/api/comments/1')
+            .expect(204)
+        })
+        test('The requested comment has been removed from the database', () => {
+            return request(app)
+            .delete('/api/comments/1')
+            .expect(204)
+            .then(() => {
+                return request(app)
+                .get('/api/articles/9/comments')
+                .expect(200)
+                .then(({ body: {comments} }) => {
+                    expect(comments.length).toBe(1)
+                })
+            })
+        })
+      })
 })

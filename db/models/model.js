@@ -84,4 +84,9 @@ const selectAllUsers = () => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers };
+const removeComment = (comment_id) => {
+    const queryString = `DELETE FROM comments WHERE comment_id = $1;`;
+    return db.query(queryString, [comment_id])
+};
+
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, removeComment };
