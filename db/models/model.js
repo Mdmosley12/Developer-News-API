@@ -84,4 +84,8 @@ const selectAllUsers = () => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers };
+const selectAllEndpoints = () => {
+
+}
+
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, selectAllEndpoints };
