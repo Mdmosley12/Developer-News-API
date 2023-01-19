@@ -200,6 +200,21 @@ describe('app testing', () => {
                 )
             })
         })
+        test('200: contains a comment_count property which displays a count of all the comments for the requested article', () => {
+            return request(app)
+            .get('/api/articles/6')
+            .expect(200)
+            .then(({ body: {article} }) => {
+                expect(article.article[0].comment_count).toBe('1');
+                article.article.forEach((article) => {
+                    expect(article).toEqual(
+                        expect.objectContaining({
+                            comment_count: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
     })
     describe('get comments by article_id', () => {
         test('200: Returns all comments related to the requested article_id', () => {
