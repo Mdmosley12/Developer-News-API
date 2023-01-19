@@ -27,7 +27,7 @@ describe('app testing', () => {
             .get('/api/articles/999/comments')
             .expect(404)
             .then(({ body }) => {
-                expect(body.msg).toBe('Requested article not found!');
+                expect(body.msg).toBe('Not Found!');
             })
         })
         test('Returns a 404 status code and an error message when an invalid ID has beenn entered', () => {
@@ -59,6 +59,14 @@ describe('app testing', () => {
             .expect(400)
             .then(({ body }) => {
                 expect(body.msg).toBe('Invalid data type in request!');
+            })
+        })
+        test('Returns a 404 statuss code and an error message when a comment_id is used in a delete query that does not exist', () => {
+            return request(app)
+            .delete('/api/comments/140')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Not Found!');
             })
         })
     })

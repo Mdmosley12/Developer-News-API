@@ -33,7 +33,7 @@ app.use((err, request, response, next) => {
 
 app.use((err, request, response, next) => {
     if(err.status === 404) {
-        response.status(404).send({msg: 'Requested article not found!'});
+        response.status(404).send({msg: 'Not Found!'});
     } else {
         next(err);
     }
