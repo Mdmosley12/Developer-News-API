@@ -76,4 +76,12 @@ const updateArticle = (article_id, updateValues) => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle };
+const selectAllUsers = () => {
+    const queryString = `SELECT * FROM users;`;
+    return db.query(queryString)
+    .then((result) => {
+        return result.rows;
+    })
+};
+
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers };

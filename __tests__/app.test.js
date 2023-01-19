@@ -68,9 +68,9 @@ describe('app testing', () => {
             return request(app)
             .get('/api/topics')
             .expect(200)
-            .then(({ body }) => {
-                expect(body.length).toBeGreaterThan(0);
-                body.forEach((topic) => {
+            .then(({ body: {topics} }) => {
+                expect(topics.length).toBeGreaterThan(0);
+                topics.forEach((topic) => {
                     expect(topic).toEqual(
                         expect.objectContaining({
                             slug: expect.any(String),
@@ -214,7 +214,6 @@ describe('app testing', () => {
             .send(newComment)
             .expect(201)
             .then(({ body }) => {
-                // console.log(body);
                 expect(body.comment).toEqual(
                     expect.objectContaining({
                         article_id: 3,
@@ -263,5 +262,24 @@ describe('app testing', () => {
                 })
             })
         })
-})
+    })
+    describe('get users', () => {
+        test('200: Returns all users', () => {
+            return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then(({ body: {users} }) => {
+                expect(users.length).toBeGreaterThan(0);
+                users.forEach((user) => {
+                    expect(user).toEqual(
+                        expect.objectContaining({
+                            username: expect.any(String),
+                            name: expect.any(String),
+                            avatar_url: expect.any(String)
+                        })
+                    )
+                })
+            })
+        })
+    })
 })

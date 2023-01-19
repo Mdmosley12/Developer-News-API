@@ -1,9 +1,9 @@
-const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle } = require('../models/model');
+const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers } = require('../models/model');
 
 const getTopics = (request, response, next) => {
     selectAllTopics()
     .then((topics) => {
-        response.status(200).send( topics );
+        response.status(200).send( {topics} );
     })
     .catch((err) => {
         next(err);
@@ -65,4 +65,15 @@ const patchArticle = (request, response, next) => {
     })
 };
 
-module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle };
+const getUsers = (request, response, next) => {
+    selectAllUsers()
+    .then((users) => {
+        response.status(200).send( {users} );
+    })
+    .catch((err) => {
+        next(err);
+    })
+};
+
+
+module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers };
