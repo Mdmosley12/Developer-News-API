@@ -3,7 +3,6 @@ const request = require('supertest');
 const db = require('../db/connection');
 const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index');
-const { get } = require('../db/app/app');
 
 beforeEach(() => {
     return seed(testData);
@@ -28,7 +27,7 @@ describe('app testing', () => {
             .get('/api/articles/999/comments')
             .expect(404)
             .then(({ body }) => {
-                expect(body.msg).toBe('Requested article not found!');
+                expect(body.msg).toBe('Not Found!');
             })
         })
         test('Returns a 404 status code and an error message when an invalid ID has beenn entered', () => {
@@ -60,6 +59,30 @@ describe('app testing', () => {
             .expect(400)
             .then(({ body }) => {
                 expect(body.msg).toBe('Invalid data type in request!');
+            })
+        })
+        test('Returns a 400 status code and an error message when a non accepted sort_by query is used', () => {
+            return request(app)
+            .get('/api/articles?sort_by=body')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request!')
+            })
+        })
+        test('Returns a 400 status code and an error message when a non accepted order query is used', () => {
+            return request(app)
+            .get('/api/articles?order=DESX')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request!')
+            })
+        })
+        test('Returns a 404 status code and an error message when a topic query is used that does not exist', () => {
+            return request(app)
+            .get('/api/articles?topic=crumpets')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Not Found!')
             })
         })
     })
@@ -126,6 +149,32 @@ describe('app testing', () => {
                             comment_count: expect.any(String)
                         })
                     )
+                })
+            })
+        })
+        test('200: accepts a sort_by query', () => {
+            return request(app)
+            .get('/api/articles?sort_by=article_id')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles).toBeSortedBy('article_id', {descending: true})
+            })
+        })
+        test('200: accepts an order query', () => {
+            return request(app)
+            .get('/api/articles?order=ASC')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles).toBeSortedBy('created_at', {ascending: true})
+            })
+        })
+        test('200: accepts a topic query', () => {
+            return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                articles.forEach((article) => {
+                    expect(article.topic).toBe('cats')
                 })
             })
         })
