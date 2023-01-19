@@ -3,7 +3,7 @@ const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByA
 const getTopics = (request, response, next) => {
     selectAllTopics()
     .then((topics) => {
-        response.status(200).send( topics );
+        response.status(200).send( {topics} );
     })
     .catch((err) => {
         next(err);
@@ -57,7 +57,7 @@ const postComment = (request, response, next) => {
 const getUsers = (request, response, next) => {
     selectAllUsers()
     .then((users) => {
-        response.status(200).send( users );
+        response.status(200).send( {users} );
     })
     .catch((err) => {
         next(err);
