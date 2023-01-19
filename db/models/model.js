@@ -30,7 +30,7 @@ const selectAllArticles = (sort_by = 'created_at', order = 'DESC', topic) => {
     queryString += ` ORDER BY ${sort_by} ${order};`;
     return db.query(queryString, queryValues).then((result) => {
         if(result.rows.length === 0) {
-            return Promise.reject({ status: 400, msg: 'Bad Request!'})
+            return Promise.reject({ status: 404, msg: 'Not Found'})
         } else {
             return result.rows;
         }

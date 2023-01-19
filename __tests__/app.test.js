@@ -3,7 +3,6 @@ const request = require('supertest');
 const db = require('../db/connection');
 const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index');
-const { get } = require('../db/app/app');
 
 beforeEach(() => {
     return seed(testData);
@@ -28,7 +27,7 @@ describe('app testing', () => {
             .get('/api/articles/999/comments')
             .expect(404)
             .then(({ body }) => {
-                expect(body.msg).toBe('Requested article not found!');
+                expect(body.msg).toBe('Not Found!');
             })
         })
         test('Returns a 404 status code and an error message when an invalid ID has beenn entered', () => {
@@ -78,12 +77,12 @@ describe('app testing', () => {
                 expect(body.msg).toBe('Bad Request!')
             })
         })
-        test('Returns a 400 status code and an error message when a non accepted topic query is used', () => {
+        test('Returns a 404 status code and an error message when a topic query is used that does not exist', () => {
             return request(app)
             .get('/api/articles?topic=crumpets')
-            .expect(400)
+            .expect(404)
             .then(({ body }) => {
-                expect(body.msg).toBe('Bad Request!')
+                expect(body.msg).toBe('Not Found!')
             })
         })
     })
@@ -174,7 +173,9 @@ describe('app testing', () => {
             .get('/api/articles?topic=cats')
             .expect(200)
             .then(({ body: {articles} }) => {
-                expect(articles[0].topic).toBe('cats')
+                articles.forEach((article) => {
+                    expect(article.topic).toBe('cats')
+                })
             })
         })
     })
