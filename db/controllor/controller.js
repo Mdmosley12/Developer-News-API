@@ -11,7 +11,10 @@ const getTopics = (request, response, next) => {
 };
 
 const getArticles = (request, response, next) => {
-    selectAllArticles()
+    const { sort_by } = request.query;
+    const { order } = request.query;
+    const { topic } = request.query;
+    selectAllArticles(sort_by, order, topic)
     .then((articles) => {
         response.status(200).send( {articles} );
     })

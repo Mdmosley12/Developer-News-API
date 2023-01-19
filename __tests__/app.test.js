@@ -62,6 +62,30 @@ describe('app testing', () => {
                 expect(body.msg).toBe('Invalid data type in request!');
             })
         })
+        test('Returns a 400 status code and an error message when a non accepted sort_by query is used', () => {
+            return request(app)
+            .get('/api/articles?sort_by=body')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request!')
+            })
+        })
+        test('Returns a 400 status code and an error message when a non accepted order query is used', () => {
+            return request(app)
+            .get('/api/articles?order=DESX')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request!')
+            })
+        })
+        test('Returns a 400 status code and an error message when a non accepted topic query is used', () => {
+            return request(app)
+            .get('/api/articles?topic=crumpets')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request!')
+            })
+        })
     })
     describe('get topics', () => {
         test('Returns a 200 status and all topics', () => {
@@ -127,6 +151,30 @@ describe('app testing', () => {
                         })
                     )
                 })
+            })
+        })
+        test('200: accepts a sort_by query', () => {
+            return request(app)
+            .get('/api/articles?sort_by=article_id')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles).toBeSortedBy('article_id', {descending: true})
+            })
+        })
+        test('200: accepts an order query', () => {
+            return request(app)
+            .get('/api/articles?order=ASC')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles).toBeSortedBy('created_at', {ascending: true})
+            })
+        })
+        test('200: accepts a topic query', () => {
+            return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then(({ body: {articles} }) => {
+                expect(articles[0].topic).toBe('cats')
             })
         })
     })
@@ -263,5 +311,5 @@ describe('app testing', () => {
                 })
             })
         })
-})
+    })
 })
