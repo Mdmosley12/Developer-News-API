@@ -281,14 +281,25 @@ describe('app testing', () => {
             })
         })
     })
-    // describe('get endpoints', () => {
-    //     test.only('Returns with all the endpoints available to the api', () => {
-    //         return request(app)
-    //         .get('/api')
-    //         .expect(200)
-    //         .then(({ body }) => {
-
-    //         })
-    //     })
-    // })
+    describe('get endpoints', () => {
+        test('Returns with all the endpoints available to the api', () => {
+            return request(app)
+            .get('/api')
+            .expect(200)
+            .then(({ body: {endpoints} }) => {
+                const parsedEndpoints = JSON.parse(endpoints);
+                expect(parsedEndpoints).toEqual(
+                    expect.objectContaining({
+                        "GET /api": expect.any(Object),
+                        "GET /api/articles": expect.any(Object),
+                        "GET /api/articles/:article_id": expect.any(Object),
+                        "GET /api/articles/:article_id/comments": expect.any(Object),
+                        "POST /api/articles/:article_id/comments": expect.any(Object),
+                        "PATCH /api/articles/:article_id": expect.any(Object),
+                        "GET /api/users": expect.any(Object)
+                    })
+                )
+            })
+        })
+    })
 })

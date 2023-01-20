@@ -77,8 +77,8 @@ const getUsers = (request, response, next) => {
 
 const getEndpoints = (request, response, next) => {
     selectAllEndpoints()
-    .then((file) => {
-        response.status(200).send()
+    .then((endpoints) => {
+        response.status(200).send({endpoints})
     })
     .catch((err) => {
         next(err);
