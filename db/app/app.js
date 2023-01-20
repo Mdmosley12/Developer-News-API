@@ -1,18 +1,9 @@
 const express = require('express');
 const app = express();
-const { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers, deleteComment, getEndpoints } = require('../controllor/controller');
+const apiRouter = require('../routes/api-router');
 
 app.use(express.json());
-app.get('/api', getEndpoints)
-app.get('/api/topics', getTopics);
-app.get('/api/articles', getArticles);
-app.get('/api/articles?:sort_by=column', getArticles)
-app.get('/api/articles/:article_id', getArticleById)
-app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
-app.post('/api/articles/:article_id/comments', postComment);
-app.patch('/api/articles/:article_id', patchArticle);
-app.get('/api/users', getUsers);
-app.delete('/api/comments/:comment_id', deleteComment);
+app.use('/api', apiRouter);
 
 app.all('*', (request, response, next) => {
     response.status(404).send({msg: 'Invalid input!'});
