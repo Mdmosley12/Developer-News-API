@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-const { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers, deleteComment } = require('../controllor/controller');
+const { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers, deleteComment, getEndpoints } = require('../controllor/controller');
 
 app.use(express.json());
+app.get('/api', getEndpoints)
 app.get('/api/topics', getTopics);
 app.get('/api/articles', getArticles);
 app.get('/api/articles?:sort_by=column', getArticles)

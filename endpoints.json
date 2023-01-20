@@ -1,27 +1,108 @@
 {
-  "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
-  },
-  "GET /api/topics": {
-    "description": "serves an array of all topics",
-    "queries": [],
-    "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
-    }
-  },
-  "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
-    "exampleResponse": {
-      "articles": [
-        {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+    "GET /api": {
+        "description": "Returns a JSON representing all of the available endpoints of the api"
+    },
+    "GET /api/topics": {
+        "description": "Returns an array of all topics",
+        "queries": [],
+        "exampleResponse": {
+            "topics": [
+                {"slug": "football", "description": "Footie!"}
+            ]
         }
-      ]
+    },
+    "GET /api/articles": {
+        "description": "Returns an array of all articles",
+        "queries": ["topic", "sort_by", "order"],
+        "exampleResponse": {
+            "articles": [
+                {
+                    "article_id": 3,
+                    "title": "Eight pug gifs that remind me of mitch",
+                    "topic": "mitch",
+                    "author": "icellusedkars",
+                    "body": "some gifs",
+                    "created_at": "2020-11-03T09:12:00.000Z",
+                    "votes": 0,
+                    "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+                    "comment_count": "2"
+                }
+            ]
+        }
+    },
+    "GET /api/articles/:article_id": {
+        "description": "Returns an array containing the requested article",
+        "queries": [],
+        "exampleResponse": {
+            "article": [
+                {
+                   "article_id": 2,
+                   "title": "Sony Vaio; or, The Laptop",
+                   "topic": "mitch",
+                   "author": "icellusedkars",
+                   "body": "Call me Mitchell. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would buy a laptop about a little and see the codey part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to coding as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the laptop. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the the Vaio with me.",
+                   "created_at": "2020-10-16T05:03:00.000Z",
+                   "votes": 0,
+                   "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+                }
+            ]
+        }
+    },
+    "GET /api/articles/:article_id/comments": {
+        "description": "Returns an array containing all comments related to the requested article",
+        "queries": [],
+        "exampleResponse": {
+            "comments": [
+                {
+                    "comment_id": 5,
+                    "body": "I hate streaming noses",
+                    "article_id": 1,
+                    "author": "icellusedkars",
+                    "votes": 0,
+                    "created_at": "2020-11-03T21:00:00.000Z"
+                  }
+            ]
+        }
+    },
+    "POST /api/articles/:article_id/comments": {
+        "description": "Returns an object containing the comment that has been added to the database",
+        "queries": [],
+        "exampleResponse": {
+            "comment": {
+                "comment_id": 19,
+                "body": "I love coding!",
+                "article_id": 3,
+                "author": "butter_bridge",
+                "votes": 0,
+                "created_at": "2023-01-19T14:49:22.524Z"
+            }
+        }
+    },
+    "PATCH /api/articles/:article_id": {
+        "description": "Returns an object containing the comment that has been altered in the database",
+        "queries": [],
+        "exampleResponse": {
+            "article_id": 1,
+            "title": "Living in the shadow of a great man",
+            "topic": "mitch",
+            "author": "butter_bridge",
+            "body": "I find this existence challenging",
+            "created_at": "2020-07-09T20:11:00.000Z",
+            "votes": 101,
+            "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+        }
+    },
+    "GET /api/users": {
+        "description": "Returns an array containing all the users on the database",
+        "queries": [],
+        "exampleResponse": {
+            "users": [
+                {
+                    "username": "lurker",
+                    "name": "do_nothing",
+                    "avatar_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png"
+                }
+            ]
+        }
     }
-  }
 }

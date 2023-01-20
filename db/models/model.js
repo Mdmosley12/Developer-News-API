@@ -1,4 +1,5 @@
 const db = require('../connection');
+const fs = require('fs/promises');
 
 const selectAllTopics = () => {
     const queryString = 'SELECT * FROM topics;';
@@ -119,4 +120,10 @@ const removeComment = (comment_id) => {
     })
 };
 
-module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, removeComment };
+const selectAllEndpoints = () => {
+    return fs.readFile('./endpoints.json', 'utf-8', (err, data) => {
+        if (err) throw (err);
+    })
+}
+
+module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, removeComment, selectAllEndpoints };

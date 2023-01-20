@@ -1,4 +1,4 @@
-const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers,removeComment } = require('../models/model');
+const { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, removeComment, selectAllEndpoints } = require('../models/model');
 
 const getTopics = (request, response, next) => {
     selectAllTopics()
@@ -76,6 +76,7 @@ const getUsers = (request, response, next) => {
     })
 };
 
+
 const deleteComment = (request, response, next) => {
     const { comment_id } = request.params;
     removeComment(comment_id)
@@ -85,7 +86,17 @@ const deleteComment = (request, response, next) => {
     .catch((err) => {
         next(err)
     })
-  };
+};
+
+const getEndpoints = (request, response, next) => {
+    selectAllEndpoints()
+    .then((endpoints) => {
+        response.status(200).send({endpoints})
+    })
+    .catch((err) => {
+        next(err);
+    })
+};
 
 
-module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers, deleteComment };
+module.exports = { getTopics, getArticles, getArticleById, getCommentsByArticleId, postComment, patchArticle, getUsers, deleteComment, getEndpoints };
