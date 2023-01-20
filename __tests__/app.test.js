@@ -373,7 +373,7 @@ describe('app testing', () => {
                 })
             })
         })
-      })
+    })
       describe('get endpoints', () => {
         test('Returns with all the endpoints available to the api', () => {
             return request(app)

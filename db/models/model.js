@@ -124,6 +124,6 @@ const selectAllEndpoints = () => {
     return fs.readFile('./endpoints.json', 'utf-8', (err, data) => {
         if (err) throw (err);
     })
-}
+};
 
 module.exports = { selectAllTopics, selectAllArticles, selectArticleById, selectCommentsByArticleId, addComment, updateArticle, selectAllUsers, removeComment, selectAllEndpoints };
